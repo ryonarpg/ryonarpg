@@ -6,13 +6,13 @@
 
 ### 指路
 
-游戏本体（还在更新！需要梯子！）：
+游戏本体（还在更新！居然不需要梯子！）：
 
 [core](http://dev.rsaga.org/core/) & [up](http://dev.rsaga.org/up/)
 
 wiki：
 
-[日文wiki（非常详细！需要梯子！推荐！）](https://w.atwiki.jp/ryonarpgb/)
+[日文wiki（非常详细！居然也不需要梯子耶！推荐！）](https://w.atwiki.jp/ryonarpgb/)
 
 [繁中wiki（过时）](https://scratchpad.fandom.com/zh/wiki/RyonaRPG/)
 
