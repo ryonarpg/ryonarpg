@@ -1,5 +1,6 @@
 <!-- 侧边栏 ryonarpgwiki/_sidebar.md -->
 - **<font color=orange>入门篇</font>**
+  - [主线攻略](/tips/mainQuest.md) 
   - [我该如何开局（未填）](/rr/start.md)
   - [初始角色简评（未填）](/rr/roles.md)
   - [武器装备攻略（未填）](/rr/arms.md)
