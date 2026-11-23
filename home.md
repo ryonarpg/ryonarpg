@@ -16,6 +16,8 @@ wiki：
 
 [日文wiki（非常详细！居然也不需要梯子耶！推荐！）](https://w.atwiki.jp/ryonarpgb/)
 
+[**日文wiki 汉化版（本站新增，166 页）**](/jpwiki/)
+
 [繁中wiki（过时）](https://scratchpad.fandom.com/zh/wiki/RyonaRPG/)
 
 [英文wiki（过时但正在认真英译游戏）](https://wiki.anime-sharing.com/hgames/index.php?title=RyonaRPG)

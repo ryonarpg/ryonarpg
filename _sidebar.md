@@ -12,5 +12,8 @@
 
 - **<font color=blow>入土篇</font>**
   - [法师GO](/rr/five.md)
+- **日文 wiki**
+  - [汉化版（新）](/jpwiki/)
+  - [术语表](/jpwiki/glossary.md)
 - **其他**
   - [坑](/other/ken.md)

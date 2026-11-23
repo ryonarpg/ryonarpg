@@ -1,0 +1,4 @@
+- [汉化首页](/jpwiki/)
+- [术语表](/jpwiki/glossary.md)
+- [汉化说明](/jpwiki/about.md)
+- [← 返回简中主站](/)
