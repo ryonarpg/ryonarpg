@@ -1,0 +1,3 @@
+- [简中攻略](/)
+- [日文 wiki 汉化版](/jpwiki/)
+- [术语表](/jpwiki/glossary.md)
