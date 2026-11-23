@@ -8,7 +8,9 @@
 
 游戏本体（还在更新！居然不需要梯子！）：
 
-[core](http://dev.rsaga.org/core/) & [up](http://dev.rsaga.org/up/)
+[新版下载地址](https://rsaga.net/ja)
+
+[官方dc群](https://discord.gg/p62zz7b)
 
 wiki：
 
