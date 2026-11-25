@@ -105,7 +105,7 @@ def build_pages(gloss: dict, force_fallback: bool) -> dict:
         m = re.search(r"^# (.+)$", head, re.M)
         ja = m.group(1).strip() if m else zh
         url = f"https://w.atwiki.jp/ryonarpgb/pages/{pid}.html"
-        out.write_text(fallback_page(pid, zh, ja, url, cache_md), encoding="utf-8")
+        out.write_text(fallback_page(pid, zh, ja, url, cache_md), encoding="utf-8", newline="\n")
         status[pid] = "ja"
     return status
 
@@ -121,12 +121,12 @@ def build_sidebar(gloss: dict, status: dict) -> None:
             lines.append(f"  - [{it['zh']}]({href}){mark}")
         lines.append("")
     text = "\n".join(lines).rstrip() + "\n"
-    (SITE / "_sidebar.md").write_text(text, encoding="utf-8")
+    (SITE / "_sidebar.md").write_text(text, encoding="utf-8", newline="\n")
     # docsify 默认按当前目录找 _sidebar.md；pages/ 下再放一份，保证所有页面都能取到
-    (PAGES / "_sidebar.md").write_text(text, encoding="utf-8")
+    (PAGES / "_sidebar.md").write_text(text, encoding="utf-8", newline="\n")
     navbar = SITE / "_navbar.md"
     if navbar.exists():
-        (PAGES / "_navbar.md").write_text(navbar.read_text(encoding="utf-8"), encoding="utf-8")
+        (PAGES / "_navbar.md").write_text(navbar.read_text(encoding="utf-8"), encoding="utf-8", newline="\n")
 
 
 def build_glossary_page(gloss: dict) -> None:
@@ -158,7 +158,7 @@ def build_glossary_page(gloss: dict) -> None:
         "## 核心术语\n\n" + "\n".join(rows) + "\n\n"
         "## 页面标题对照\n\n" + "\n".join(title_rows) + "\n"
     )
-    (SITE / "glossary.md").write_text(md, encoding="utf-8")
+    (SITE / "glossary.md").write_text(md, encoding="utf-8", newline="\n")
 
 
 def update_progress(zh: int, total: int) -> None:
@@ -176,7 +176,7 @@ def update_progress(zh: int, total: int) -> None:
     )
     new = re.sub(r"<!-- progress:start -->.*?<!-- progress:end -->", block, text, flags=re.S)
     if new != text:
-        readme.write_text(new, encoding="utf-8")
+        readme.write_text(new, encoding="utf-8", newline="\n")
 
 
 def main() -> int:
@@ -194,9 +194,11 @@ def main() -> int:
     ja = sum(1 for v in status.values() if v == "ja")
     update_progress(zh, len(status))
     (SITE / "status.json").write_text(
-        json.dumps({"total": len(status), "zh": zh, "ja": ja, "pages": status},
+        json.dumps({"total": len(status), "zh": zh, "ja": ja, "pages": {
+                       pid: status[pid] for pid in sorted(status, key=int)}},
                    ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
+        newline="\n",
     )
     print(f"images={n_img} pages={len(status)} zh={zh} ja={ja}")
     return 0
