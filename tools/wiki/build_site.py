@@ -111,13 +111,13 @@ def build_pages(gloss: dict, force_fallback: bool) -> dict:
 
 
 def build_sidebar(gloss: dict, status: dict) -> None:
-    lines = ["- [🏠 汉化版首页](/jpwiki/)", "- [📖 术语表](/jpwiki/glossary.md)", "- [ℹ️ 汉化说明](/jpwiki/about.md)", ""]
+    lines = ["- [🏠 汉化版首页](README.md)", "- [📖 术语表](glossary.md)", "- [ℹ️ 汉化说明](about.md)", ""]
     for cat, items in gloss["groups"].items():
         lines.append(f"- **{GROUP_ICON.get(cat, '📁')} {cat}**")
         for it in items:
             pid = str(it["id"])
             mark = "" if status.get(pid) == "zh" else " <small>日</small>"
-            href = "/jpwiki/" if pid == "1" else f"/jpwiki/pages/{pid}.md"
+            href = "README.md" if pid == "1" else f"pages/{pid}.md"
             lines.append(f"  - [{it['zh']}]({href}){mark}")
         lines.append("")
     text = "\n".join(lines).rstrip() + "\n"
@@ -194,7 +194,7 @@ def main() -> int:
     ja = sum(1 for v in status.values() if v == "ja")
     update_progress(zh, len(status))
     (SITE / "status.json").write_text(
-        json.dumps({"total": len(status), "zh": zh, "ja": ja, "pages": {
+        json.dumps({"total": len(status), "zh": zh, "ja": ja, "missing": 0, "pages": {
                        pid: status[pid] for pid in sorted(status, key=int)}},
                    ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",

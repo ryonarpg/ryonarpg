@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SITE = ROOT / "jpwiki"
 PAGES = SITE / "pages"
 
-LINK_RE = re.compile(r"\]\((\./(\d+)\.md)(#[^)]*)?\)")
+LINK_RE = re.compile(r"\]\((?:\./)?(?:pages/)?(\d+)\.md(?:#[^)]*)?\)")
 IMG_RE = re.compile(r"!\[[^\]]*\]\((\.\./images/[^)]+)\)")
 
 
@@ -34,6 +34,8 @@ def main() -> int:
     warnings: list[str] = []
     stats = {"zh": 0, "ja": 0, "missing": 0}
     group_stats: dict[str, dict[str, int]] = {}
+    if not (SITE / "index.html").exists():
+        errors.append("缺少 jpwiki/index.html（/jpwiki/ 路由会 404）")
 
     for cat, items in gloss["groups"].items():
         group_stats[cat] = {"zh": 0, "ja": 0}
@@ -51,9 +53,11 @@ def main() -> int:
             group_stats[cat]["zh" if is_zh else "ja"] += 1
 
             for m in LINK_RE.finditer(text):
-                target = m.group(2)
+                target = m.group(1)
                 if target not in valid:
                     errors.append(f"{pid}: 链接指向未收录页面 ./{target}.md")
+            if re.search(r"\]\(/jpwiki/", text):
+                errors.append(f"{pid}: 仍使用 /jpwiki/ 绝对链接（GitHub Pages 会 404）")
             for m in IMG_RE.finditer(text):
                 p = (PAGES / m.group(1)).resolve()
                 if not p.exists():
@@ -65,6 +69,15 @@ def main() -> int:
                 if re.search(r"[ぁ-んァ-ヶ]", body.replace("原文", "")):
                     # 专名保留日文是允许的，这里只统计，不算错
                     pass
+
+    for name in ("README.md", "about.md", "_sidebar.md", "_navbar.md",
+                 "pages/_sidebar.md", "pages/_navbar.md"):
+        f = SITE / name
+        if not f.exists():
+            errors.append(f"缺少 {name}")
+            continue
+        if re.search(r"\]\(/jpwiki/", f.read_text(encoding="utf-8")):
+            errors.append(f"{name}: 仍使用 /jpwiki/ 绝对链接")
 
     (SITE / "status.json").write_text(
         json.dumps({"total": len(valid), **stats, "pages": {
