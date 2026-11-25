@@ -70,8 +70,9 @@ def main() -> int:
         json.dumps({"total": len(valid), **stats, "pages": {
             pid: ("zh" if (PAGES / f"{pid}.md").exists()
                   and "status: zh" in (PAGES / f"{pid}.md").read_text(encoding="utf-8")[:400] else "ja")
-            for pid in valid}}, ensure_ascii=False, indent=2) + "\n",
+            for pid in sorted(valid, key=int)}}, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
+        newline="\n",
     )
 
     print(f"总页面 {len(valid)}｜已汉化 {stats['zh']}｜日文占位 {stats['ja']}｜缺失 {stats['missing']}")
