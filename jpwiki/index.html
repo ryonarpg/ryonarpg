@@ -20,6 +20,15 @@
       loadNavbar: true,
       auto2top: true,
       homepage: 'README.md',
+      // 保留源码里的 ./N.md 以便 GitHub 阅读；docsify 会把它变成 #/./N，
+      // 这里改写成 pages/N.md，生成可刷新/可新标签打开的 #/pages/N。
+      plugins: [
+        function (hook) {
+          hook.beforeEach(function (content) {
+            return content.replace(/\]\(\.\/(\d+)\.md/g, '](pages/$1.md');
+          });
+        }
+      ],
       timeUpdater: {
         text: "<div align='center' width='200px' style='color:gray;font-size:15px'>-------------- 最后更新时间:&emsp;{docsify-updated} --------------</div>",
         formatUpdated: "{YYYY}/{MM}/{DD}",

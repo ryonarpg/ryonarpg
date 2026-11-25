@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SITE = ROOT / "jpwiki"
 PAGES = SITE / "pages"
 
-LINK_RE = re.compile(r"\]\((?:\./)?(?:pages/)?(\d+)\.md(?:#[^)]*)?\)")
+LINK_RE = re.compile(r"\]\((?:#/pages/|(?:\./)?(?:pages/)?)(\d+)(?:\.md)?(?:#[^)]*)?\)")
 IMG_RE = re.compile(r"!\[[^\]]*\]\((\.\./images/[^)]+)\)")
 
 
@@ -36,6 +36,8 @@ def main() -> int:
     group_stats: dict[str, dict[str, int]] = {}
     if not (SITE / "index.html").exists():
         errors.append("缺少 jpwiki/index.html（/jpwiki/ 路由会 404）")
+    elif "](pages/$1.md" not in (SITE / "index.html").read_text(encoding="utf-8"):
+        errors.append("jpwiki/index.html 缺少 ./N.md → pages/N.md 的 docsify 插件")
 
     for cat, items in gloss["groups"].items():
         group_stats[cat] = {"zh": 0, "ja": 0}
